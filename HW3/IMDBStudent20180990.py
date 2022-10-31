@@ -16,7 +16,7 @@ genre_set = set(genre_list)
 
 for i in genre_set:
 	genre_dic[i] = genre_list.count(i)
-print(genre_dic) 
+#print(genre_dic) 
 
 with open(output_filename, "wt") as f:
 	for key in genre_dic.keys():
