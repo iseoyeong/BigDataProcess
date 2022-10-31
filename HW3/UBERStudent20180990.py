@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+import csv
 import sys
 import datetime
 
@@ -12,22 +12,21 @@ vehicle=[]
 trip=[]
 day=[]
 
-#파일 읽어오기
-with open(input_filename, "rt") as fp:
-	for line in fp:
-		region.append(line.split(',')[0])
-		vehicle.append(line.split(',')[2])
-		trip.append(line.split(',')[3])
-		
-		#날짜 -> 요일 변환
-		date = line.split(',')[1].split('/')
+with open(input_filename, 'r', encoding = 'utf-8') as fp:
+	reader = csv.reader(fp)
+	for row in reader:
+		date = row[1].split('/')
 		year = int(date[2])
 		month = int(date[0])
 		d = int(date[1])
-		day.append(days[datetime.date(year, month, d).weekday()])
+		row[1] = days[datetime.date(year, month, d).weekday()]	
+		region.append(row[0])	
+		day.append(row[1])
+		vehicle.append(row[2])
+		trip.append(row[3])
 
-#파일 쓰기
-with open(output_filename, "wt") as f:
+
+with open(output_filename, 'w', encoding='utf-8') as fp:
 	for i in range(len(region)):
-		data = region[i] + ',' + day[i] + ' ' + vehicle[i] + ',' + trip[i] 
-		f.write(data)
+		data = region[i] + ',' + day[i] + ' ' + vehicle[i] + ',' + trip[i] + '\n'
+		fp.write(data)
