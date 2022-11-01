@@ -11,7 +11,7 @@ key_list=[]
 elements=[]
 sum_dic = dict()
 
-with open(input_filename, 'r', encoding = 'utf-8') as fp:
+with open(input_filename, 'rt') as fp:
 	reader = csv.reader(fp)
 	for row in reader:
 		#날짜 -> 요일 변환
@@ -25,22 +25,23 @@ with open(input_filename, 'r', encoding = 'utf-8') as fp:
 		element = (row[0], row[1], row[2], row[3])
 		elements.append(element)
 
+key_list = set(key_list)
+key_list = list(key_list)
+print(len(key_list))
+
 sum_dic = { int : 0 for int in key_list }
 sum_vehicle = { int : 0 for int in key_list }
 sum_trip = { int : 0 for int in key_list }
 
-for i in range(len(elements)):
+for i in range(len(elements)): 
 	s = elements[i][0]+','+elements[i][1]
-	if s == key_list[i]:
-		print(1)
-		sum_vehicle[key_list[i]] += int(elements[i][2])
-		sum_trip[key_list[i]] += int(elements[i][3])
-		sum_dic[key_list[i]] = str(sum_vehicle[key_list[i]])+','+str(sum_trip[key_list[i]]) 
+	for j in range(len(key_list)):
+		if s == key_list[j]:
+			sum_vehicle[key_list[j]] += int(elements[i][2])
+			sum_trip[key_list[j]] += int(elements[i][3])
+			sum_dic[key_list[j]] = str(sum_vehicle[key_list[j]])+','+str(sum_trip[key_list[j]]) 
 
-print(sum_dic)
-
-with open(output_filename, 'w', encoding='utf-8') as fp:
+with open(output_filename, 'wt') as fp:
 	for i in range(len(key_list)):
 		data = key_list[i] + ' ' + sum_dic[key_list[i]] +'\n'
-		print(data)
 		fp.write(data)
