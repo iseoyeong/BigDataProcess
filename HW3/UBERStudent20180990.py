@@ -25,9 +25,10 @@ with open(input_filename, 'rt') as fp:
 		element = (row[0], row[1], row[2], row[3])
 		elements.append(element)
 
+#print(len(key_list))
 key_list = set(key_list)
 key_list = list(key_list)
-print(len(key_list))
+#print(len(key_list))
 
 sum_dic = { int : 0 for int in key_list }
 sum_vehicle = { int : 0 for int in key_list }
@@ -40,7 +41,6 @@ for i in range(len(elements)):
 			sum_vehicle[key_list[j]] += int(elements[i][2])
 			sum_trip[key_list[j]] += int(elements[i][3])
 			sum_dic[key_list[j]] = str(sum_vehicle[key_list[j]])+','+str(sum_trip[key_list[j]]) 
-
 with open(output_filename, 'wt') as fp:
 	for i in range(len(key_list)):
 		data = key_list[i] + ' ' + sum_dic[key_list[i]] +'\n'
